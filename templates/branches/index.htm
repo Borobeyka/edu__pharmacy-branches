@@ -1,0 +1,35 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    Филиалы
+{% endblock %}
+
+{% block body %}
+<h4>Филиалы сети</h4>
+
+<table class="table table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Адрес</th>
+            <th scope="col">Время работы</th>
+            <th scope="col">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if branches: %}
+            {% for branche in branches: %}
+                <tr>
+                    <td>{{ branche.address }}</td>
+                    <td>{{ branche.time_open.strftime("%H:%M") }} - {{ branche.time_close.strftime("%H:%M") }}</td>
+                    <td>
+                        <a href="{{ url_for('branches_show', branch_id=branche.id) }}" class="btn btn-success"><i class="bi bi-eye-fill light"></i> Просмотр</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else: %}
+            <h5>Нет добавленных филиалов</h5>
+        {% endif %}
+    </tbody>
+</table>
+
+{% endblock %}

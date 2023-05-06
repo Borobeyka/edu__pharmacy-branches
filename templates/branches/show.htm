@@ -1,0 +1,27 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    {{ branche.address }}
+{% endblock %}
+
+{% block body %}
+
+<h4>Просмотр филиала</h4>
+
+<b>Адрес:</b> {{ branche.address }} <br>
+<b>Время открытия филиала:</b> {{ branche.time_open.strftime("%H:%M") }} <br>
+<b>Время закрытия филиала:</b> {{ branche.time_close.strftime("%H:%M") }} <br>
+<b>Сотрудники:</b>
+{% if employees: %}
+    <ul class="list-group list-group-flush">
+        {% for employee in employees: %}
+            <li class="list-group-item">{{ employee.name }} {{ employee.surname }} [ <b>{{ employee.position_title }}</b> ]</li>
+        {% endfor %}
+    </ul>
+{% else: %}
+    <p>Сотрудники не найдены</p>
+{% endif %}
+
+<a href="{{ url_for('branches') }}" class="btn btn-primary mt-2"><i class="bi bi-caret-left-fill"></i> Назад</a>
+
+{% endblock %}

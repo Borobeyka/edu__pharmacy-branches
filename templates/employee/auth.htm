@@ -1,0 +1,35 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    Вход в систему
+{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center  ">
+    <div class="w-25">
+        <h3>Авторизация</h3>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            {% for category, text in get_flashed_messages(True) %}
+                <div class="alert alert-{{ category }}">{{ text }}</div>  
+            {% endfor %}
+
+            {% for field in form if field.name not in ["csrf_token", "submit"] %}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-group row">
+                    {{ field.label(class="col-sm-2 col-form-label") }}
+                    {{ field(class="form-control") }}
+                </div>
+            {% endfor %}
+            <div class="form-group row mt-2">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
