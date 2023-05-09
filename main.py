@@ -9,7 +9,7 @@ from db import DB
 from forms.forms import *
 from user_login import UserLogin
 
-print(generate_password_hash("randomkey"))
+# print(generate_password_hash("tester"))
 
 app = Flask(__name__)
 app.secret_key = "iMjwrw4MXLYWkQxZ$13c482e5ca9f68d8979845335c41d252256"

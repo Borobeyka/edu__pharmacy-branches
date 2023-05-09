@@ -1,0 +1,10 @@
+Employees:
+    -
+        login: solovyov
+        password: 123456
+    -
+        login: demidov.a
+        password: password
+    -
+        login: tester
+        password: tester
