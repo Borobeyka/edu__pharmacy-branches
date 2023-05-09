@@ -25,11 +25,13 @@
                         {% endfor %}
                     </ul>
                     <div class="d-flex align-items-center">
-
                         {% if user: %}
-                        <i class="bi bi-person-circle me-1" style="font-size: 1.5rem"></i>
-                        <b>{{ user.name }} {{ user.surname }}</b>
-                            <a href="{{ url_for('employee_logout') }}" class="btn btn-outline-danger ms-3">Выход</a>
+                        <i class="bi bi-person-circle me-2" style="font-size: 1.5rem"></i>
+                        <div class="d-flex align-items-center flex-column">
+                            <b>{{ user.name }} {{ user.surname }}</b>
+                            <i>{{ user.position_title }}</i>
+                        </div>
+                        <a href="{{ url_for('employee_logout') }}" class="btn btn-outline-danger ms-3" title="Выйти из системы">Выход</a>
                         {% else: %}
                             <a href="{{ url_for('employee_auth') }}" class="btn btn-success">Войти в систему</a>
                         {% endif %}
@@ -37,7 +39,6 @@
                 </div>
             </div>
         </nav>
-
         <div style="padding: 1.5rem 0">
             {% block body %}{% endblock %}
         </div>

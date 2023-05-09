@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION get_manufacturer_by_id(manufacturer_id integer)
+RETURNS TABLE (
+	id integer,
+	title varchar,
+	address varchar,
+    requisites varchar
+) 
+AS $$
+BEGIN
+	RETURN QUERY EXECUTE format('SELECT * FROM manufacturers WHERE id = %L', manufacturer_id);
+END;
+$$ 
+LANGUAGE 'plpgsql';

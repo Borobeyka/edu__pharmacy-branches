@@ -1,0 +1,13 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    {{ manufacturer.title }}
+{% endblock %}
+
+{% block body %}
+<h4>Производитель "{{ manufacturer.title }}"</h4>
+
+<b>Адрес:</b><p>{{ manufacturer.address }}</p>
+<b>Реквизиты:</b><pre>{{ manufacturer.requisites }}</pre>
+
+{% endblock %}

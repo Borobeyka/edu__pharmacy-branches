@@ -1,0 +1,3 @@
+CREATE VIEW "get_all_orders" as
+    SELECT o.*, b.address branch_address, e.name employee_name, e.surname employee_surname FROM orders o
+    LEFT JOIN branches b ON b.id = o.branch_id LEFT JOIN employees e ON e.id = o.employee_id ORDER BY o.date

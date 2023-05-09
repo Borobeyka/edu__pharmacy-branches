@@ -1,0 +1,26 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    Редактирование - "{{ medicament.title }}"
+{% endblock %}
+
+{% block body %}
+<h4>Редактирование - "{{ medicament.title }}"</h4>
+
+<form action="" method="POST">
+    {{ edit_form.hidden_tag() }}
+    <div class="row">
+        {% for field in edit_form if field.name not in ["csrf_token", "submit"] %}
+            <div class="row mb-3 d-flex align-items-baseline">
+                <div class="input-group">
+                    {{ field.label(class="input-group-text") }}
+                    {{ field(class="form-control") }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {{ edit_form.submit(class="btn btn-success w-100 mb-3") }}
+</form>
+
+
+{% endblock %}

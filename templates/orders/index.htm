@@ -1,0 +1,41 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    Продажи
+{% endblock %}
+
+{% block body %}
+<h4>Список всех продаж</h4>
+
+<table class="table table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th scope="col">ID операции</th>
+            <th scope="col">Филиал</th>
+            <th scope="col">Дата и время</th>
+            <th scope="col">Стоимость (₽)</th>
+            <th scope="col">Кем продано</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if orders: %}
+            {% for order in orders: %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('orders_show', order_id=order.id) }}" title="Просмотр продажи">{{ order.id }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('branches_show', branch_id=order.branch_id) }}" title="Подробнее о филиале">
+                            {{ order.branch_address }}
+                        </a>
+                    </td>
+                    <td>{{ order.date.strftime("%d.%m.%Y %H:%M") }}</td>
+                    <td>{{ order.amount }}</td>
+                    <td>{{ order.employee_name }} {{ order.employee_surname }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+
+{% endblock %}

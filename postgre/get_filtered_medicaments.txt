@@ -1,0 +1,35 @@
+CREATE OR REPLACE FUNCTION get_filtered_medicaments (
+	_title varchar,
+	_category_id integer,
+	_manufacturer_id integer)
+RETURNS TABLE (
+	id integer,
+	title varchar,
+	description varchar,
+	category_id integer,
+	manufacturer_id integer,
+	image_url varchar,
+	price real,
+	category_title varchar,
+	manufacturer_title varchar
+) 
+AS $$
+DECLARE
+    statement TEXT;
+BEGIN
+	statement := 'SELECT med.*, c.title category_title, m.title manufacturer_title FROM medicaments med
+		LEFT JOIN categories c ON c.id = med.category_id LEFT JOIN manufacturers m ON m.id = med.manufacturer_id WHERE 1=1 AND';
+	IF (_title IS NOT NULL) THEN
+		statement := format('%s med.title ILIKE ''%%%s%%'' OR med.description ILIKE ''%%%s%%'' AND', statement, _title, _title);
+	END IF;
+	IF (_category_id IS NOT NULL) THEN
+		statement := format('%s med.category_id = %L AND', statement, _category_id);
+	END IF;
+	IF (_manufacturer_id IS NOT NULL) THEN
+		statement := format('%s med.manufacturer_id = %L AND', statement, _manufacturer_id);
+	END IF;
+	statement := format('%s 1=1 ORDER BY med.title;', statement);
+	RETURN QUERY EXECUTE statement;
+END;
+$$ 
+LANGUAGE 'plpgsql';

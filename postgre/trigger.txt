@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION trigger_orders_details() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    UPDATE orders SET amount = amount + (SELECT price FROM medicaments WHERE id = new.medicament_id) * new.count WHERE id = new.order_id;
+    RETURN new;
+END;
+$BODY$
+language plpgsql;
+
+CREATE TRIGGER trigger_orders_details
+    AFTER INSERT ON orders_details
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_orders_details();

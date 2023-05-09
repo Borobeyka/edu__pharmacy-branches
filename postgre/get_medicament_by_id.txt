@@ -1,0 +1,19 @@
+CREATE OR REPLACE FUNCTION get_medicament_by_id(medicament_id integer)
+RETURNS TABLE (
+	id integer,
+	title varchar,
+	description varchar,
+	category_id integer,
+	manufacturer_id integer,
+	image_url varchar,
+	price real,
+	category_title varchar,
+	manufacturer_title varchar
+) 
+AS $$
+BEGIN
+	RETURN QUERY EXECUTE format('SELECT m.*, c.title category_title, man.title manufacturer_title FROM medicaments m
+    LEFT JOIN categories c ON c.id = m.category_id LEFT JOIN manufacturers man ON man.id = m.manufacturer_id WHERE m.id = %L', medicament_id);
+END;
+$$ 
+LANGUAGE 'plpgsql';

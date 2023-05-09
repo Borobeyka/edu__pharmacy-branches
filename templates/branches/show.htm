@@ -1,16 +1,16 @@
 {% extends "/layout.htm" %}
 
 {% block title %}
-    {{ branche.address }}
+    {{ branch.address }}
 {% endblock %}
 
 {% block body %}
 
-<h4>Просмотр филиала</h4>
+<h4>Сведения филиала</h4>
 
-<b>Адрес:</b> {{ branche.address }} <br>
-<b>Время открытия филиала:</b> {{ branche.time_open.strftime("%H:%M") }} <br>
-<b>Время закрытия филиала:</b> {{ branche.time_close.strftime("%H:%M") }} <br>
+<b>Адрес:</b> {{ branch.address }} <br>
+<b>Время открытия филиала:</b> {{ branch.time_open.strftime("%H:%M") }} <br>
+<b>Время закрытия филиала:</b> {{ branch.time_close.strftime("%H:%M") }} <br>
 <b>Сотрудники:</b>
 {% if employees: %}
     <ul class="list-group list-group-flush">

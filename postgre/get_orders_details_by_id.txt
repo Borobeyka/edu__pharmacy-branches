@@ -1,0 +1,24 @@
+CREATE OR REPLACE FUNCTION get_orders_details_by_id(_order_id integer)
+RETURNS TABLE (
+	id integer,
+	order_id integer,
+	medicament_id integer,
+	count integer,
+	title varchar,
+	description varchar,
+	category_id integer,
+	manufacturer_id integer,
+	image_url varchar,
+	price real,
+	category_title varchar,
+	manufacturer_title varchar
+) 
+AS $$
+BEGIN
+	RETURN QUERY EXECUTE format('SELECT od.*, m.title, m.description, m.category_id, m.manufacturer_id, m.image_url, m.price,
+    c.title category_title, man.title manufacturer_title FROM orders_details od LEFT JOIN medicaments m ON m.id = od.medicament_id
+    LEFT JOIN categories c ON c.id = m.category_id LEFT JOIN manufacturers man ON man.id = m.manufacturer_id
+    WHERE od.order_id = %L', _order_id);
+END;
+$$ 
+LANGUAGE 'plpgsql';

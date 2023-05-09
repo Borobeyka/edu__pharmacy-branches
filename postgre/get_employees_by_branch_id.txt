@@ -7,7 +7,7 @@ RETURNS TABLE (
 AS $$
 BEGIN
 	RETURN QUERY EXECUTE format('SELECT e.name, e.surname, p.title FROM employees e LEFT JOIN positions p ON p.id = e.position_id
-								WHERE e.branch_id = %L', branch_id);
+								WHERE e.branch_id = %L ORDER BY e.branch_id', branch_id);
 END;
 $$ 
 LANGUAGE 'plpgsql';

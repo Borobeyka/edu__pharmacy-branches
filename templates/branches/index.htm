@@ -17,12 +17,16 @@
     </thead>
     <tbody>
         {% if branches: %}
-            {% for branche in branches: %}
+            {% for branch in branches: %}
                 <tr>
-                    <td>{{ branche.address }}</td>
-                    <td>{{ branche.time_open.strftime("%H:%M") }} - {{ branche.time_close.strftime("%H:%M") }}</td>
                     <td>
-                        <a href="{{ url_for('branches_show', branch_id=branche.id) }}" class="btn btn-success"><i class="bi bi-eye-fill light"></i> Просмотр</a>
+                        <a href="{{ url_for('branches_show', branch_id=branch.id) }}">
+                            {{ branch.address }}
+                        </a>
+                    </td>
+                    <td>{{ branch.time_open.strftime("%H:%M") }} - {{ branch.time_close.strftime("%H:%M") }}</td>
+                    <td>
+                        <a href="{{ url_for('branches_show', branch_id=branch.id) }}" class="btn btn-success btn-sm" title="Сведения о филиале"><i class="bi bi-eye-fill light"></i></a>
                     </td>
                 </tr>
             {% endfor %}

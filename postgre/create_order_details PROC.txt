@@ -1,0 +1,11 @@
+create or replace PROCEDURE create_orders_details(
+	order_id integer,
+	medicament_id integer,
+	count integer
+)
+as $$
+begin
+    INSERT INTO orders_details VALUES(DEFAULT, order_id, medicament_id, count);
+end;
+$$
+language plpgsql;

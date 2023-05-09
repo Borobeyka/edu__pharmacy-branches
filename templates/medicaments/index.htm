@@ -7,31 +7,83 @@
 {% block body %}
 <h4>Список медикаментов</h4>
 
-<table class="table table-striped table-hover table-sm">
-    <thead>
-        <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Изображение</th>
-            <th scope="col">Категория</th>
-            <th scope="col">Производитель</th>
-            <th scope="col">Действия</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% if branches: %}
-            {% for branche in branches: %}
+<form action="" method="POST">
+    {{ search_form.hidden_tag() }}
+    <div class="row mb-2">
+        {% for field in search_form if field.name not in ["csrf_token", "submit"] %}
+            <div class="col d-flex flex-column">
+                {{ field.label(class='form-label text-center') }}
+                {{ field(class='form-control form-control-sm') }}
+            </div>
+        {% endfor %}
+        <div class="col d-flex align-items-end text-center">
+            {{ search_form.submit(class='btn btn-primary px-5 btn-sm me-2') }}
+            <a href="{{ url_for('index') }}" class="btn btn-info px-5 btn-sm">Сбросить</a>
+        </div>            
+    </div>
+</form>
+{% if user.position_id == 1: %}
+    <a href="{{ url_for('medicaments_add') }}" class="btn btn-success btn-sm">Добавить препарат</a>
+{% endif %}
+{% if medicaments: %}
+    <table class="table table-striped table-hover table-sm">
+        <thead>
+            <tr>
+                {% if request.args.get("is_adding"): %}
+                    <th scope="col"></th>
+                {% endif %}
+                <th scope="col">Название (А-Я)</th>
+                <th scope="col">Изображение</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Производитель</th>
+                <th scope="col">Стоимость (₽)</th>
+                {% if user.position_id == 1: %}
+                    <th scope="col">Действия</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicament in medicaments: %}
                 <tr>
-                    <td>{{ branche.address }}</td>
-                    <td>{{ branche.time_open.strftime("%H:%M") }} - {{ branche.time_close.strftime("%H:%M") }}</td>
+                    {% if request.args.get("is_adding") %}
+                        <td>
+                            <a href="{{ url_for('orders_add', medicament_id=medicament.id) }}" class="btn btn-success btn-sm" title="Добавить к заказу">
+                                <i class="bi bi-clipboard2-plus light"></i>
+                            </a>
+                        </td>
+                    {% endif %}
                     <td>
-                        <a href="{{ url_for('branches_show', branch_id=branche.id) }}" class="btn btn-success"><i class="bi bi-eye-fill light"></i> Просмотр</a>
+                        <a href="{{ url_for('medicaments_show', medicament_id=medicament.id) }}">{{ medicament.title }}</a>
                     </td>
+                    <td>
+                        <a href="{{ url_for('medicaments_show', medicament_id=medicament.id) }}" title="{{ medicament.title }}">
+                            {% if medicament.image_url %}
+                                <img src="{{ medicament.image_url }}" width="100px" alt="">
+                            {% else: %}
+                                <img src="https://via.placeholder.com/900x600?text=Изображение отсутсвует" width="100px" alt="">
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td>{{ medicament.category_title }}</td>
+                    <td>
+                        <a href="{{ url_for('manufacturers_show', manufacturer_id=medicament.manufacturer_id) }}">
+                            {{ medicament.manufacturer_title }}
+                        </a>
+                    </td>
+                    <td>{{ medicament.price }}</td>
+                    {% if user.position_id == 1: %}
+                        <td>
+                            <a href="{{ url_for('medicaments_edit', medicament_id=medicament.id) }}" class="btn btn-warning btn-sm" title="Редактирование"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{{ url_for('medicaments_delete', medicament_id=medicament.id) }}" class="btn btn-danger btn-sm" title="Удалить"><i class="bi bi-trash3"></i></a>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
-        {% else: %}
-            <h5>Нет добавленных филиалов</h5>
-        {% endif %}
     </tbody>
 </table>
+{% else: %}
+    <hr>
+    <h5>Нет результатов удовлетворяющих запросу</h5>
+{% endif %}
 
 {% endblock %}

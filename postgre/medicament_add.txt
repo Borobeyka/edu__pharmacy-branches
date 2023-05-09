@@ -1,0 +1,17 @@
+create or replace FUNCTION medicament_add(
+	title varchar,
+	description varchar,
+	category_id integer,
+	manufacturer_id integer,
+	image_url varchar,
+	price real
+)
+RETURNS table (
+	new_id integer
+)
+as $$
+begin
+    return query INSERT INTO medicaments VALUES(DEFAULT, title, description, category_id, manufacturer_id, image_url, price) RETURNING id;
+end;
+$$
+language plpgsql  

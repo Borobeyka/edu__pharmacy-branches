@@ -1,0 +1,58 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    Продажа от {{ order.date.strftime("%d.%m.%Y %H:%M") }}
+{% endblock %}
+
+{% block body %}
+<h4>Продажа от {{ order.date.strftime("%d.%m.%Y %H:%M") }}</h4>
+
+<b>Кем продано:</b> {{ order.employee_name }} {{ order.employee_surname }}<br>
+<b>Филиал продажи:</b> {{ order.branch_address }}<br>
+
+<table class="table table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Изображение</th>
+            <th scope="col">Категория</th>
+            <th scope="col">Производитель</th>
+            <th scope="col">Стоимость (₽)</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Всего (₽)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if order_details: %}
+            {% for item in order_details: %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('medicaments_show', medicament_id=item.id) }}" title="{{ item.title }}">
+                            {{ item.title }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('medicaments_show', medicament_id=item.id) }}" title="{{ item.title }}">
+                            {% if item.image_url %}
+                                <img src="{{ item.image_url }}" width="100px" alt="">
+                            {% else: %}
+                                <img src="https://via.placeholder.com/900x600?text=Изображение отсутсвует" width="100px" alt="">
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td>{{ item.category_title }}</td>
+                    <td>
+                        <a href="{{ url_for('manufacturers_show', manufacturer_id=item.manufacturer_id) }}">
+                            {{ item.manufacturer_title }}
+                        </a>
+                    </td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.count }}</td>
+                    <td>{{ order.amount }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+
+{% endblock %}

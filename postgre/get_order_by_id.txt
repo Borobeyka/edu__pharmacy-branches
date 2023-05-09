@@ -1,0 +1,18 @@
+CREATE OR REPLACE FUNCTION get_order_by_id(order_id integer)
+RETURNS TABLE (
+	id integer,
+	branch_id integer,
+	employee_id integer,
+	amount real,
+	date timestamp,
+	employee_name varchar,
+	employee_surname varchar,
+	branch_address varchar
+) 
+AS $$
+BEGIN
+	RETURN QUERY EXECUTE format('SELECT o.*, e.name employee_name, e.surname employee_surname, b.address branch_address
+    FROM orders o LEFT JOIN employees e ON e.id = o.employee_id LEFT JOIN branches b ON b.id = o.branch_id WHERE o.id = %L', order_id);
+END;
+$$ 
+LANGUAGE 'plpgsql';

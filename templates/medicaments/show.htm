@@ -1,0 +1,27 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    {{ medicament.title }}
+{% endblock %}
+
+{% block body %}
+<h4>{{ medicament.title }}</h4>
+{% if medicament.image_url: %}
+    <img src="{{ medicament.image_url }}" width="300px" alt=""><br>
+{% else: %}
+    <img src="https://via.placeholder.com/120x50?text=Изображение отсутсвует" width="300px" alt=""><br>
+{% endif %}
+<b>Описание:</b>
+<p>{{ medicament.description }}</p>
+<b>Производитель:</b>
+<p>
+    <a href="{{ url_for('manufacturers_show', manufacturer_id=medicament.manufacturer_id) }}">
+        {{ medicament.manufacturer_title }}
+    </a>
+</p>
+<b>Категория:</b>
+<p>{{ medicament.category_title }}</p>
+<b>Стоимость:</b>
+<p>{{ medicament.price }} ₽</p>
+
+{% endblock %}

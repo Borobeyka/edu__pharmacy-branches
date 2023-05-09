@@ -25,6 +25,7 @@ medicaments (Препараты):
   image_url ( VARCHAR(512), NULL, DEFAULT - "" )
   category_id ( INTEGER, NOT NULL, FK )
   manufacturer_id ( INTEGER, NOT NULL, FK )
+  price ( REAL, NOT NULL )
 positions (Должности):
   id ( INTEGER, PRIMARY KEY )
   title ( VARCHAR(64), NOT NULL )
@@ -35,7 +36,7 @@ orders (Продажи):
   id ( INTEGER, PRIMARY KEY )
   branch_id ( INTEGER, NOT NULL, FK )
   employee_id ( INTEGER, NOT NULL, FK )
-  amount ( REAL, NOT NULL )
+  amount ( REAL, NULL, DEFAULT - 0 )
   date ( TIMESTAMP, NOT NULL, DEFAULT - NOW() )
 orders_details (Продажи инфо):
   id ( INTEGER, PRIMARY KEY )
@@ -47,7 +48,7 @@ orders_details (Продажи инфо):
 По интерфейсу:
   - Авторизация +
   - Отображение коллег в филиале, в котором работает авторизованный сотрудник +
-  - Поиск препаратов по названию / категории / ключевым словам в описани
-  - Добавление / изменение / удаление препарата (доступно для управляющего филиалом)
-  - Просмотр продаж по филиалу (можем добавить какие-нибудь фильтры для поиска)
-  - Оформление продажи (формирование покупки иными словами)
+  - Поиск препаратов по названию / категории / ключевым словам в описании + 
+  - Добавление / изменение / удаление препарата (доступно для управляющего филиалом) + + +
+  - Просмотр продаж по филиалам +
+  - Оформление продажи

@@ -1,0 +1,13 @@
+create or replace FUNCTION create_order(
+	branch_id integer,
+	employee_id integer
+)
+RETURNS table (
+	new_id integer
+)
+as $$
+begin
+    return query INSERT INTO orders VALUES(DEFAULT, branch_id, employee_id, DEFAULT, DEFAULT) RETURNING id;
+end;
+$$
+language plpgsql

@@ -1,0 +1,76 @@
+{% extends "/layout.htm" %}
+
+{% block title %}
+    Новая продажа
+{% endblock %}
+
+{% block body %}
+<h4>Новая продажа</h4>
+
+<a href="{{ url_for('index', is_adding=true) }}" class="btn btn-primary btn-sm">Выбрать препарат</a>
+
+<table class="table table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Изображение</th>
+            <th scope="col">Категория</th>
+            <th scope="col">Производитель</th>
+            <th scope="col">Стоимость (₽)</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Всего (₽)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if order_items: %}
+            {% for order_item in order_items: %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('medicaments_show', medicament_id=order_item.item.id) }}" title="{{ order_item.item.title }}">
+                            {{ order_item.item.title }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('medicaments_show', medicament_id=order_item.item.id) }}" title="{{ order_item.item.title }}">
+                            {% if order_item.item.image_url %}
+                                <img src="{{ order_item.item.image_url }}" width="100px" alt="">
+                            {% else: %}
+                                <img src="https://via.placeholder.com/900x600?text=Изображение отсутсвует" width="100px" alt="">
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td>{{ order_item.item.category_title }}</td>
+                    <td>
+                        <a href="{{ url_for('manufacturers_show', manufacturer_id=order_item.item.manufacturer_id) }}">
+                            {{ order_item.item.manufacturer_title }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ order_item.item.price }}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('orders_add', medicament_id=order_item.item.id, minus=true) }}" class="btn btn-sm me-1" style="padding:0;">
+                            <i class="bi bi-dash-lg"></i>
+                        </a>
+                        {{ order_item.count }}
+                        <a href="{{ url_for('orders_add', medicament_id=order_item.item.id) }}" class="btn btn-sm ms-1" style="padding:0">
+                            <i class="bi bi-plus-lg"></i>
+                        </a>
+                    </td>
+                    <td>
+                        {{ order_item.item.price * order_item.count }}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+
+{% if order_items: %}
+    <form method="POST" class="mb-3">
+        {{ form.hidden_tag() }}
+        {{ form.submit(class="btn btn-warning w-100") }}
+    </form>
+{% endif %}
+
+{% endblock %}
