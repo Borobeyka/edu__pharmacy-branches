@@ -9,10 +9,10 @@ from db import DB
 from forms.forms import *
 from user_login import UserLogin
 
-print(generate_password_hash("123456"))
+print(generate_password_hash("randomkey"))
 
 app = Flask(__name__)
-app.secret_key = "9d3fc4c15037cf54e9e6ca948d99dda7f1823d1d"
+app.secret_key = "iMjwrw4MXLYWkQxZ$13c482e5ca9f68d8979845335c41d252256"
 app.jinja_env.trim_blocks = True
 login_manager = LoginManager(app=app)
 login_manager.login_view = "employee_auth"
