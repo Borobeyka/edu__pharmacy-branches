@@ -80,9 +80,9 @@ class DB():
             return False
         return convert(response)
 
-    def get_filtered_medicaments(self, data):
-        self.cursor.execute("SELECT * FROM get_filtered_medicaments(%s, %s, %s)",
-                            (data.title, data.category_id, data.manufacturer_id))
+    def get_filtered_medicaments(self, data, position_id):
+        self.cursor.execute("SELECT * FROM get_filtered_medicaments(%s, %s, %s, %s)",
+                            (data.title, data.category_id, data.manufacturer_id, position_id))
         response = self.cursor.fetchall()
         if not response:
             return False

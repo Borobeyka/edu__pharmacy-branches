@@ -33,7 +33,7 @@ def index():
         "category_id": search_form.category_id.data if search_form.category_id.data != "-1" else None,
         "manufacturer_id": search_form.manufacturer_id.data if search_form.manufacturer_id.data != "-1" else None,
     })
-    medicaments = db.get_filtered_medicaments(values)
+    medicaments = db.get_filtered_medicaments(values, current_user.user.position_id)
     return render_template(
         "medicaments/index.htm",
         search_form=search_form,

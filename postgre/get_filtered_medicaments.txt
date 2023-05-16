@@ -1,7 +1,8 @@
 CREATE OR REPLACE FUNCTION get_filtered_medicaments (
 	_title varchar,
 	_category_id integer,
-	_manufacturer_id integer)
+	_manufacturer_id integer,
+	_position_id integer)
 RETURNS TABLE (
 	id integer,
 	title varchar,
@@ -28,6 +29,9 @@ BEGIN
 	END IF;
 	IF (_manufacturer_id IS NOT NULL) THEN
 		statement := format('%s med.manufacturer_id = %L AND', statement, _manufacturer_id);
+	END IF;
+	IF (_position_id != 1) THEN
+		statement := format('%s not med.is_prescription AND', statement);
 	END IF;
 	statement := format('%s 1=1 ORDER BY med.title;', statement);
 	RETURN QUERY EXECUTE statement;
