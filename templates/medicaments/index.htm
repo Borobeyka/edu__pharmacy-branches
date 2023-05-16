@@ -45,12 +45,14 @@
         <tbody>
             {% for medicament in medicaments: %}
                 <tr>
-                    {% if request.args.get("is_adding") %}
+                    {% if (request.args.get("is_adding") and (medicament.is_prescription == False or user.position_id == 1)): %}
                         <td>
                             <a href="{{ url_for('orders_add', medicament_id=medicament.id) }}" class="btn btn-success btn-sm" title="Добавить к заказу">
                                 <i class="bi bi-clipboard2-plus light"></i>
                             </a>
                         </td>
+                    {% else: %}
+                        <td></td>
                     {% endif %}
                     <td>
                         <a href="{{ url_for('medicaments_show', medicament_id=medicament.id) }}">{{ medicament.title }}</a>

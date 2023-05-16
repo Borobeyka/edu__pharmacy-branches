@@ -4,7 +4,8 @@ create or replace FUNCTION medicament_add(
 	category_id integer,
 	manufacturer_id integer,
 	image_url varchar,
-	price real
+	price real,
+	is_prescription boolean
 )
 RETURNS table (
 	new_id integer
